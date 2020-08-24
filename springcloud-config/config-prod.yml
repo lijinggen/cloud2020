@@ -1,1 +1,2 @@
-spring: hello world-prod
+server:
+  port: 3344
