@@ -1,1 +1,2 @@
-spring: hello world-test
+server:
+  port: 3344
