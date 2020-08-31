@@ -1673,23 +1673,69 @@ public class MessageProviderImpl implements IMessageProvider
 }
 ```
 
+## 分组订阅 路由
+
+### 1.分组
+
+```YML
+server:
+  port: 8802
+
+spring:
+  application:
+    name: cloud-stream-consumer
+  cloud:
+      stream:
+        binders: # 在此处配置要绑定的rabbitmq的服务信息；
+          defaultRabbit: # 表示定义的名称，用于于binding整合
+            type: rabbit # 消息组件类型
+            environment: # 设置rabbitmq的相关的环境配置
+              spring:
+                rabbitmq:
+                  host: 172.18.1.52
+                  port: 5672
+                  username: guest
+                  password: guest
+        bindings: # 服务的整合处理
+          input: # 这个名字是一个通道的名称
+            destination: studyExchange # 表示要使用的Exchange名称定义
+            content-type: application/json # 设置消息类型，本次为对象json，如果是文本则设置“text/plain”
+            binder: defaultRabbit # 设置要绑定的消息服务的具体设置
+            group: atguigu
+  rabbitmq:
+    host: 172.18.1.52
+    port: 5672
+    username: guest
+    password: guest
 
 
 
+eureka:
+  client: # 客户端进行Eureka注册的配置
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+  instance:
+    lease-renewal-interval-in-seconds: 2 # 设置心跳的时间间隔（默认是30秒）
+    lease-expiration-duration-in-seconds: 5 # 如果现在超过了5秒的间隔（默认是90秒）
+    instance-id: receive-8802.com  # 在信息列表时显示主机名称
+    prefer-ip-address: true     # 访问的路径变为IP地址
+```
+
+<img src="SpringCloud.assets/image-20200831220412064.png" alt="image-20200831220412064" style="zoom: 67%;" />	
+
+# 十四、SpringCloud Sleuth
+
+![image-20200831225513136](SpringCloud.assets/image-20200831225513136.png)
+
+![image-20200831225548284](SpringCloud.assets/image-20200831225548284.png)
+
+``` markdown
+# 原理图
+```
 
 
 
-
-
-
-
-
-
-
-
-
-
-
+![img](SpringCloud.assets/12889335-49075b7a31bf4b4a.png)
 
 
 
