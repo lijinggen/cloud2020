@@ -1739,25 +1739,106 @@ eureka:
 
 
 
+![image-20200831225753306](SpringCloud.assets/image-20200831225753306.png)
+
+```markdown
+# springcloud整合zipkin
+```
+
+```xml
+<!--包含了sleuth+zipkin-->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-zipkin</artifactId>
+</dependency>
+```
+
+```yml
+server:
+  port: 8001
+
+spring:
+  application:
+    name: cloud-payment-service
+  zipkin:
+      base-url: http://localhost:9411
+  sleuth:
+    sampler:
+    #采样率值介于 0 到 1 之间，1 则表示全部采集
+    probability: 1
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource            # 当前数据源操作类型
+    driver-class-name: org.gjt.mm.mysql.Driver              # mysql驱动包
+    url: jdbc:mysql://localhost:3306/db2019?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 123456
+
+
+eureka:
+  client:
+    #表示是否将自己注册进EurekaServer默认为true。
+    register-with-eureka: true
+    #是否从EurekaServer抓取已有的注册信息，默认为true。单节点无所谓，集群必须设置为true才能配合ribbon使用负载均衡
+    fetchRegistry: true
+    service-url:
+      #单机版
+      defaultZone: http://localhost:7001/eureka
+      # 集群版
+      #defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka
+  instance:
+      instance-id: payment8001
+      #访问路径可以显示IP地址
+      prefer-ip-address: true
+      #Eureka客户端向服务端发送心跳的时间间隔，单位为秒(默认是30秒)
+      #lease-renewal-interval-in-seconds: 1
+      #Eureka服务端在收到最后一次心跳后等待时间上限，单位为秒(默认是90秒)，超时将剔除服务
+      #lease-expiration-duration-in-seconds: 2
+
+
+mybatis:
+  mapperLocations: classpath:mapper/*.xml
+  type-aliases-package: com.atguigu.springcloud.entities    # 所有Entity别名类所在包
+```
+
+``` markdown
+# 结果
+```
+
+![image-20200831231015684](SpringCloud.assets/image-20200831231015684.png)
 
 
 
+# 十五、SpringCloud Alibaba入门
 
+``` markdown
+# 为什么会出现
+```
 
+```markdown
+# 主要服务
+1. 服务限流降级：默认支持 WebServlet、WebFlux, OpenFeign、RestTemplate、Spring Cloud Gateway, Zuul, Dubbo 和 RocketMQ 限流降级功能的接入，可以在运行时通过控制台实时修改限流降级规则，还支持查看限流降级 Metrics 监控。
+2. 服务注册与发现：适配 Spring Cloud 服务注册与发现标准，默认集成了 Ribbon 的支持。
+3. 分布式配置管理：支持分布式系统中的外部化配置，配置更改时自动刷新。
+4. 消息驱动能力：基于 Spring Cloud Stream 为微服务应用构建消息驱动能力。
+5. 分布式事务：使用 @GlobalTransactional 注解， 高效并且对业务零侵入地解决分布式事务问题。。
+6. 阿里云对象存储：阿里云提供的海量、安全、低成本、高可靠的云存储服务。支持在任何应用、任何时间、任何地点存储和访问任意类型的数据。
+7. 分布式任务调度：提供秒级、精准、高可靠、高可用的定时（基于 Cron 表达式）任务调度服务。同时提供分布式的任务执行模型，如网格任务。网格任务支持海量子任务均匀分配到所有 Worker（schedulerx-client）上执行。
+8. 阿里云短信服务：覆盖全球的短信服务，友好、高效、智能的互联化通讯能力，帮助企业迅速搭建客户触达通道。
+```
 
+## 1. Nacos
 
+``` markdown
+# 服务注册中心和配置中心 = Eureka + Config + BUS
+```
 
+<img src="SpringCloud.assets/image-20200831234317549.png" alt="	" style="zoom:50%;" />	
 
+## 1.1 安装
 
+GITHUB上安装ZIP文件，然后CMD运行
 
-
-
-
-
-
-
-
-
+![image-20200831234647439](SpringCloud.assets/image-20200831234647439.png)
 
 
 
